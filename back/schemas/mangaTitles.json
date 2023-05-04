@@ -1,54 +1,62 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://example.com/schemas/manga-titles.json",
-    "type": "object",
-    "properties": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/manga-titles.json",
+  "type": "object",
+  "properties": {
       "page": {
-        "type": "integer",
-        "minimum": 1
+          "type": "integer",
+          "minimum": 1
       },
       "limit": {
-        "type": "integer",
-        "minimum": 1
+          "type": "integer",
+          "minimum": 1
       },
       "totalPages": {
-        "type": "integer",
-        "minimum": 1
+          "type": "integer",
+          "minimum": 1
       },
       "totalResults": {
-        "type": "integer",
-        "minimum": 0
+          "type": "integer",
+          "minimum": 0
       },
       "data": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "title": {
-              "type": "string"
-            },
-            "coverArt": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "title"
-          ],
-          "additionalProperties": false
-        }
+          "type": "array",
+          "items": {
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "string"
+                  },
+                  "title": {
+                      "type": "string"
+                  },
+                  "coverArt": {
+                      "type": "string"
+                  },
+                  "updatedAt": {
+                      "type": "string"
+                  },
+                  "followedCount": {
+                      "type": "integer"
+                  },
+                  "relevance": {
+                      "type": "number"
+                  },
+                  "rating": {
+                      "type": "number"
+                  },
+                  "latestUploadedChapter": {
+                      "type": ["string", "null"]
+                  },
+                  "createdAt": {
+                      "type": "string"
+                  }
+              },
+              "required": ["id", "title"],
+              "additionalProperties": false
+          }
       }
-    },
-    "required": [
-      "page",
-      "limit",
-      "totalPages",
-      "totalResults",
-      "data"
-    ],
-    "additionalProperties": false
-  }
-  
+  },
+  "required": ["page", "limit", "totalPages", "totalResults", "data"],
+  "additionalProperties": false
+}
