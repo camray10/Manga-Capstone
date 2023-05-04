@@ -6,37 +6,27 @@ const { BadRequestError } = require("../expressError");
 const useMangaTitle= require("../schemas/mangaTitles.json");
 const useMangaId = require("../schemas/mangaId.json");
 
-router.get('/titles', async (req, res, next) => {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
-    
-    const mangaList = await Manga.getAllTitles(page, limit);
-    
-    const validator = jsonschema.validate(mangaList, useMangaTitle);
-    if (!validator.valid) {
-      const errs = validator.errors.map(e => e.stack);
-      throw new BadRequestError(errs);
-    }
+router.get('/titles', async (req, res) => {
+  const { page, limit, order, searchQuery } = req.query;
+  const [orderKey, orderValue] = order.split(":");
 
-    res.json(mangaList);
+  try {
+    const titles = await Manga.getAllTitles(page, limit, { [orderKey]: orderValue }, searchQuery);
+    res.status(200).json(titles);
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while retrieving manga titles.' });
   }
 });
 
-
-router.get('/:mangaId', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
-    const mangaId = req.params.mangaId;
+    const mangaId = req.params.id;
+    console.log("Received request for manga ID:", mangaId);
+
     const manga = await Manga.getMangaById(mangaId);
 
-    const validator = jsonschema.validate(req.body, useMangaId);
-    if (!validator.valid) {
-      const errs = validator.errors.map(e => e.stack);
-      throw new BadRequestError(errs);
-    }
-
+    console.log("Returning manga data:", manga);
     res.json(manga);
   } catch (error) {
     next(error);
