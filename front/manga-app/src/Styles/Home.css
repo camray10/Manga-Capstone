@@ -1,0 +1,25 @@
+.Home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    background-color: #ffffff;
+  }
+  
+  .Home div {
+    text-align: center;
+  }
+  
+  .Home h1 {
+    font-size: 60px;
+    font-weight: bold;
+    margin: 0;
+    color: #ff009d;
+  }
+  
+  .Home p {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #333333;
+  }
+  
