@@ -6,6 +6,7 @@ const { BadRequestError } = require("../expressError");
 const useMangaTitle= require("../schemas/mangaTitles.json");
 const useMangaId = require("../schemas/mangaId.json");
 
+  // GET route to get all manga titles
 router.get('/titles', async (req, res) => {
   const { page, limit, order, searchQuery } = req.query;
   const [orderKey, orderValue] = order.split(":");
@@ -19,6 +20,7 @@ router.get('/titles', async (req, res) => {
   }
 });
 
+  // GET route to get information about specific manga
 router.get('/:id', async (req, res, next) => {
   try {
     const mangaId = req.params.id;
