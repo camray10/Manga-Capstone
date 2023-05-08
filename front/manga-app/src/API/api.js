@@ -5,18 +5,20 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 class MangaApi {
   static token;
 
-  static async request(endpoint, data = {}, method = "get") {
+  static async request(endpoint, data = {}, method = "get", token = null) {
     console.debug("API Call:", endpoint, data, method);
-
+  
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {};
     
-    if (MangaApi.token) {
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    } else if (MangaApi.token) {
       headers.Authorization = `Bearer ${MangaApi.token}`;
     }
     
     const params = (method === "get") ? data : {};
-
+  
     try {
       const response = await axios({
         url,
@@ -25,15 +27,18 @@ class MangaApi {
         params,
         headers
       });
-
+  
       return response.data;
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
+  
 
   // Individual API routes
+
+  // Get all manga titles
   static async getAllTitles(page = 1, limit = 100, order = { rating: "desc" }, searchQuery = '') {
     try {
       const orderStr = `${Object.keys(order)[0]}:${order[Object.keys(order)[0]]}`;
@@ -53,7 +58,7 @@ class MangaApi {
       throw error;
     }
   }
-  
+// Get manga information based on mangaId
   static async getMangaById(mangaId) {
     try {
       const response = await axios.get(`${BASE_URL}/manga/${mangaId}`);
@@ -79,7 +84,7 @@ class MangaApi {
       throw error;
     }
   }
-  
+/** Get token for login from username, password. */
   static async login(data) {
     try {
       const response = await this.request(`auth/token`, data, "post");
@@ -91,38 +96,33 @@ class MangaApi {
     }
   }
 
-    /** Signup for site. */
-
+// Signup for site
   static async signup(data) {
     let res = await this.request(`auth/register`, data, "post");
     return res.token;
   }
 
+// Get current user info
   static async getCurrentUser(username) {
     let res = await this.request(`users/${username}`);
     return res.user;
   }
 
-    /** Get token for login from username, password. */
-
-
-    /** Save user profile page. */
-
+// Save user profile page
   static async saveProfile(username, data) {
     let res = await this.request(`users/${username}`, data, "patch");
     return res.user;
   }
-  
+
 // Add a rating
-static async addRating(token, mangaId, score, username) {
+static async addRating(token, userId, mangaId, score) {
   try {
-    const response = await this.request(`rating/${username}`, {
-      method: 'post',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      data: { mangaId, score },
-    });
+    const response = await this.request(
+      `rating`,
+      { userId: userId, mangaId: mangaId, score: score },
+      "post",
+      token // Pass the token to the request method
+    );
     return response.rating;
   } catch (err) {
     console.error('API Error:', err.response);
@@ -148,7 +148,6 @@ static async getRatingsForManga(mangaId) {
   }
 }
 
-
 // Remove a rating
 static async removeRating(ratingId) {
   try {
@@ -162,12 +161,6 @@ static async removeRating(ratingId) {
     throw Array.isArray(message) ? message : [message];
   }
 }
-
-
-
-
-
-
 };
 
 export default MangaApi;
