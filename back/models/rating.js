@@ -19,6 +19,18 @@ class Rating {
    **/
 
   static async add({ userId, mangaId, score }) {
+    // Add this code block to validate the input data
+    console.log('userId:', userId, 'mangaId:', mangaId, 'score:', score);
+    if (
+      isNaN(userId) ||
+      isNaN(mangaId) ||
+      isNaN(score) ||
+      userId === undefined ||
+      mangaId === undefined
+    ) {
+      throw new BadRequestError("Invalid input data");
+    }
+  
     const duplicateCheck = await db.query(
       `SELECT id
            FROM rating

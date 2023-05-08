@@ -8,6 +8,8 @@ const {
   BadRequestError,
   UnauthorizedError,
 } = require("../expressError");
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("../config");
 
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
@@ -24,17 +26,19 @@ class User {
 static async authenticate(username, password) {
     // try to find the user first
     const result = await db.query(
-          `SELECT username,
-                  password,
-                  first_name AS "firstName",
-                  last_name AS "lastName",
-                  email,
-                  is_admin AS "isAdmin",
-                  registration_date AS "registrationDate"
-           FROM users
-           WHERE username = $1`,
-        [username],
-    );
+      `SELECT id,                                 
+              username,
+              password,
+              first_name AS "firstName",
+              last_name AS "lastName",
+              email,
+              is_admin AS "isAdmin",
+              registration_date AS "registrationDate"
+       FROM users
+       WHERE username = $1`,
+    [username],
+);
+
 
     const user = result.rows[0];
 
@@ -42,9 +46,11 @@ static async authenticate(username, password) {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
       if (isValid === true) {
+        const token = jwt.sign({ id: user.id, username: user.username, isAdmin: user.isAdmin }, SECRET_KEY);
+        user.token = token; // Add the token property to the user object
         delete user.password;
         return user;
-      }
+      }      
     }
 
     throw new UnauthorizedError("Invalid username/password");

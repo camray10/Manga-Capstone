@@ -82,6 +82,20 @@ function ensureCorrectUserOrAdmin(req, res, next) {
   }
 }
 
+function ensureCorrectUserOrAdminForRating(req, res, next) {
+  try {
+    const user = res.locals.user;
+    const { userId } = req.body;
+    
+    if (!(user && (user.isAdmin || user.username === userId))) {
+      throw new UnauthorizedError();
+    }
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
+
 
 
 module.exports = {
@@ -89,4 +103,5 @@ module.exports = {
   ensureLoggedIn,
   ensureAdmin,
   ensureCorrectUserOrAdmin,
+  ensureCorrectUserOrAdminForRating
 };
