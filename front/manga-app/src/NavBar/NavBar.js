@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import UserContext from "../Hooks/UserContext"
+import { Helmet } from 'react-helmet';
 import "../Styles/NavBar.css";
 
 function NavBar({ logout }) {
@@ -55,9 +56,13 @@ function NavBar({ logout }) {
 
   return (
     <nav className="Navigation-bar">
+      <Helmet>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+      </Helmet>
       <NavLink className="navbar-brand" to="/">
-        Manga🍊
-      </NavLink>
+  Manga<i className="material-icons">filter_vintage</i>
+</NavLink>
+
       {currentUser ? loggedInNav() : loggedOutNav()}
     </nav>
   );
