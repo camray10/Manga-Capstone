@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MangaApi from '../API/api';
+import { useContext } from 'react';
+import UserContext from "../Hooks/UserContext";
 import moment from 'moment'
 import "../Styles/MangaCard.css";
 
@@ -10,12 +12,15 @@ function MangaCard() {
   const [ratings, setRatings] = useState([]);
   const [loading, setLoading] = useState(false);
   const { mangaId } = useParams();
+  const { currentUser } = useContext(UserContext);
+  console.log(currentUser);
+
 
   useEffect(() => {
     const fetchMangaById = async () => {
       try {
         const mangaData = await MangaApi.getMangaById(mangaId);
-        console.log('API Response:', mangaData); // Log the response
+        console.log('API Response:', mangaData); 
         setManga(mangaData);
       } catch (error) {
         console.error('Error fetching manga data:', error);
@@ -25,7 +30,7 @@ function MangaCard() {
     const fetchRatings = async () => {
       try {
         const ratingsData = await MangaApi.getRatingsForManga(mangaId);
-        console.log('Ratings:', ratingsData); // Log the response
+        console.log('Ratings:', ratingsData); 
         setRatings(ratingsData);
       } catch (error) {
         console.error('Error fetching ratings data:', error);
@@ -44,9 +49,11 @@ function MangaCard() {
     event.preventDefault();
     setLoading(true);
     try {
-      const user = await MangaApi.getCurrentUser(); // get the current user
+      console.log('currentUser.token:', currentUser.token); // Add this line
+      console.log('currentUser.id:', currentUser.id); // Add this line
       const newRating = await MangaApi.addRating(
-        user.token, // pass the user's token as the first argument
+        currentUser.token, // pass the user's token as the first argument
+        currentUser.id,    // pass the user's ID as the second argument
         mangaId,
         rating
       );
@@ -59,6 +66,10 @@ function MangaCard() {
       setLoading(false);
     }
   };
+  
+  
+  
+  
   
 
   const handleRatingDelete = async (id) => {
@@ -93,39 +104,39 @@ function MangaCard() {
           <form onSubmit={handleRatingSubmit}>
             <label>
               Rate this manga:
-              <select value={rating} onChange={handleRatingChange} disabled={!manga}>
+            <select value={rating} onChange={handleRatingChange} disabled={!manga}>
               <option value={0}>--</option>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
-          </select>
-        </label>
-        <button type="submit" disabled={loading || !manga}>
-          Submit
-        </button>
-      </form>
-      {ratings.length === 0 ? (
-        <p>No ratings yet.</p>
-      ) : (
-        <ul>
-          {ratings.map((r) => (
-            <li key={r.id}>
-              {r.score} by User {r.userId}{' '}
-              {loading ? (
-                <span>Loading...</span>
-              ) : (
-                <button onClick={() => handleRatingDelete(r.id)}>Delete</button>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
-  )}
-</div>
-);
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+            </select>
+            </label>
+              <button type="submit" disabled={loading || !manga}>
+               Submit
+            </button>
+          </form>
+            {ratings.length === 0 ? (
+              <p>No ratings yet.</p>
+                ) : (
+          <ul>
+              {ratings.map((r) => (
+              <li key={r.id}>
+               {r.score} by User {r.userId}{' '}
+               {loading ? (
+                  <span>Loading...</span>
+                ) : (
+                  <button onClick={() => handleRatingDelete(r.id)}>Delete</button>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </>
+    )}
+    </div>
+  );
 }
 
 export default MangaCard;
