@@ -9,20 +9,27 @@ const authRoutes = require("./routes/auth");
 const mangaRoutes = require("./routes/manga");
 const usersRoutes = require("./routes/users");
 const ratingRoutes = require('./routes/rating');
+const commentRoutes = require("./routes/comment");
+const favoritesRoutes = require("./routes/favorite");
 
 const app = express();
 
+function logRequests(req, res, next) {
+  console.log(`${req.method} ${req.path}`);
+  next();
+}
+
 app.use(cors());
 app.use(express.json());
+app.use(logRequests);
 app.use(authenticateJWT);
 
 app.use("/auth", authRoutes);
+app.use("/rating", ratingRoutes);
 app.use("/manga", mangaRoutes);
 app.use("/users", usersRoutes);
-app.use("/rating", ratingRoutes);
-
-
-
+app.use("/comment", commentRoutes);
+app.use("/favorites", favoritesRoutes);
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {

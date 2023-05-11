@@ -8,6 +8,7 @@ function createToken(user) {
 
   let payload = {
     username: user.username,
+    id: user.id,
     isAdmin: user.isAdmin || false,
   };
 
@@ -17,6 +18,5 @@ function createToken(user) {
   
   return signedToken;
 }
-
 
 module.exports = { createToken };

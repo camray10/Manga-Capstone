@@ -2,10 +2,6 @@ const axios = require('axios');
 const { NotFoundError} = require("../expressError");
 
 
-
-/**
- * Class representing a manga and methods for interacting with the MangaDex API.
- */
 class Manga {
 
   /**
@@ -19,13 +15,9 @@ class Manga {
    */
   static async getAllTitles(page = 1, limit = 100, order = { rating: "desc" }, searchQuery = '') {
     try {
-      const orderStr = `${Object.keys(order)[0]}:${order[Object.keys(order)[0]]}`;
-      console.log(`Making request to API with page=${page}, limit=${limit}, order=${orderStr}, searchQuery=${searchQuery}`);
-
       // Calculate the offset value based on the page number and limit
       const offset = (page - 1) * limit;
-      console.log(`Offset value: ${offset}`);
-      
+    
       // Define the API request parameters
       const params = {
         includes: ['cover_art'],
@@ -43,12 +35,8 @@ class Manga {
       const response = await axios.get('https://api.mangadex.org/manga', {
         params
       });
-
-      console.log('Response received from API:', response.data);
-
       const totalResults = response.data.total;
       const totalPages = Math.ceil(totalResults / limit);
-      console.log(`Total pages: ${totalPages}`);
 
       // Process the API response data to create a list of manga titles
       const mangaList = response.data.data.map(manga => ({
@@ -76,12 +64,8 @@ class Manga {
     }
   }
 
-
-    
-
   static async getMangaById(mangaId) {
     try {
-      console.log(`Fetching manga with ID: ${mangaId}`);
       const response = await axios.get(`https://api.mangadex.org/manga/${mangaId}`, {
         params: {
           includes: ['cover_art', 'author', 'artist', 'genre', 'tag'],
@@ -89,7 +73,6 @@ class Manga {
       });
   
       const mangaData = response.data.data;
-      console.log("Manga data received:", mangaData);
   
       const relationships = mangaData.relationships.reduce((acc, rel) => {
         if (!acc[rel.type]) {
@@ -99,11 +82,7 @@ class Manga {
         return acc;
       }, {});
   
-      console.log("Processed relationships:", relationships);
-  
       if (!mangaData) throw new NotFoundError(`Manga with ID '${mangaId}' not found`);
-  
-      console.log("Manga attributes:", mangaData.attributes);
 
       const manga = {
         id: mangaData.id,
@@ -124,8 +103,6 @@ class Manga {
       throw error;
     }
   }
-  
-  
 }
 
 module.exports = Manga;

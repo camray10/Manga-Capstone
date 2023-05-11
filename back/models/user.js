@@ -3,11 +3,7 @@
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const { sqlForPartialUpdate } = require("../helpers/sql");
-const {
-  NotFoundError,
-  BadRequestError,
-  UnauthorizedError,
-} = require("../expressError");
+const { NotFoundError, BadRequestError, UnauthorizedError } = require("../expressError");
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 
@@ -39,7 +35,6 @@ static async authenticate(username, password) {
     [username],
 );
 
-
     const user = result.rows[0];
 
     if (user) {
@@ -50,12 +45,12 @@ static async authenticate(username, password) {
         user.token = token; // Add the token property to the user object
         delete user.password;
         return user;
-      }      
+      }
+      
     }
 
     throw new UnauthorizedError("Invalid username/password");
 }
-
 
   /** Register user with data.
    *
@@ -79,7 +74,7 @@ static async register(
 
   const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
-  const result = await db.query(
+const result = await db.query(
         `INSERT INTO users
          (username,
           password,
@@ -89,7 +84,7 @@ static async register(
           is_admin,
           registration_date)
          VALUES ($1, $2, $3, $4, $5, $6, NOW())
-         RETURNING username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin", registration_date AS "registrationDate"`,
+         RETURNING id, username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin", registration_date AS "registrationDate"`,
       [
         username,
         hashedPassword,
@@ -98,13 +93,12 @@ static async register(
         email,
         isAdmin,
       ],
-  );
+);
 
   const user = result.rows[0];
 
   return user;
 }
-
 
   /** Find all users.
    *
@@ -126,7 +120,6 @@ static async findAll() {
     return result.rows;
 }
 
-
   /** Given a username, return data about user.
    *
    * Returns { username, first_name, last_name, is_admin, jobs }
@@ -137,7 +130,8 @@ static async findAll() {
 
 static async get(username) {
   const userRes = await db.query(
-    `SELECT username,
+    `SELECT id,
+            username,
             first_name AS "firstName",
             last_name AS "lastName",
             email,
@@ -146,7 +140,7 @@ static async get(username) {
      FROM users
      WHERE username = $1`,
     [username],
-  );
+);
 
   const user = userRes.rows[0];
 
@@ -154,7 +148,6 @@ static async get(username) {
   
   return user;
 }
-
 
   /** Update user data with `data`.
    *
@@ -190,15 +183,17 @@ static async get(username) {
   
     const usernameVarIdx = "$" + (values.length + 1);
   
-    const querySql = `UPDATE users 
-                      SET ${setCols} 
-                      WHERE username = ${usernameVarIdx} 
-                      RETURNING username,
-                                first_name AS "firstName",
-                                last_name AS "lastName",
-                                email,
-                                is_admin AS "isAdmin",
-                                registration_date AS "registrationDate"`;
+   const querySql = `UPDATE users 
+                  SET ${setCols} 
+                  WHERE username = ${usernameVarIdx} 
+                  RETURNING id,
+                            username,
+                            first_name AS "firstName",
+                            last_name AS "lastName",
+                            email,
+                            is_admin AS "isAdmin",
+                            registration_date AS "registrationDate"`;
+
   
     const result = await db.query(querySql, [...values, username]);
     const user = result.rows[0];
@@ -208,7 +203,6 @@ static async get(username) {
     delete user.password;
     return user;
   }
-  
 
   /** Delete given user from database; returns undefined. */
 
@@ -224,8 +218,6 @@ static async remove(username) {
 
   if (!user) throw new NotFoundError(`No user: ${username}`);
 }
-
 }
-
 
 module.exports = User;

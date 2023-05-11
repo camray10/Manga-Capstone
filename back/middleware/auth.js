@@ -1,7 +1,5 @@
 "use strict";
 
-/** Convenience middleware to handle common auth cases in routes. */
-
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 const { UnauthorizedError } = require("../expressError");
@@ -67,12 +65,7 @@ function ensureAdmin(req, res, next) {
 
 function ensureCorrectUserOrAdmin(req, res, next) {
   try {
-    const user = res.locals.user;
-    console.log("User:", user);
-    console.log("User isAdmin:", user.isAdmin);
-    console.log("User username:", user.username);
-    console.log("Req param username:", req.params.username);
-    
+    const user = res.locals.user;    
     if (!(user && (user.isAdmin || user.username === req.params.username))) {
       throw new UnauthorizedError();
     }
@@ -86,8 +79,20 @@ function ensureCorrectUserOrAdminForRating(req, res, next) {
   try {
     const user = res.locals.user;
     const { userId } = req.body;
-    
-    if (!(user && (user.isAdmin || user.username === userId))) {
+    if (!(user && (user.isAdmin || user.id === userId))) {
+      throw new UnauthorizedError();
+    }
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
+
+function ensureCorrectUserOrAdminForComment(req, res, next) {
+  try {
+    const user = res.locals.user;
+    const { userId } = req.body;
+    if (!(user && (user.isAdmin || user.id === userId))) {
       throw new UnauthorizedError();
     }
     return next();
@@ -103,5 +108,6 @@ module.exports = {
   ensureLoggedIn,
   ensureAdmin,
   ensureCorrectUserOrAdmin,
-  ensureCorrectUserOrAdminForRating
+  ensureCorrectUserOrAdminForRating,
+  ensureCorrectUserOrAdminForComment
 };

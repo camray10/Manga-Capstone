@@ -30,19 +30,11 @@ router.post("/token", async function (req, res, next) {
     const { username, password } = req.body;
     const user = await User.authenticate(username, password);
     const token = createToken(user);
-
-    // Return the user object without the password field
-    const userWithoutPassword = { ...user };
-    delete userWithoutPassword.password;
-
-    // Return both the token and user object
-    return res.json({ token, user: userWithoutPassword });
+    return res.json({ token });
   } catch (err) {
     return next(err);
   }
 });
-
-
 
 /** POST /auth/register:   { user } => { token }
  *

@@ -21,7 +21,7 @@ router.post("/", ensureCorrectUserOrAdminForRating, async function (req, res, ne
 // GET route to get all ratings for a manga
 router.get('/:mangaId', async function(req, res, next) {
   try {
-    const mangaId = parseInt(req.params.mangaId); // Convert mangaId to an integer
+    const mangaId = req.params.mangaId; // Directly get mangaId as a string
     console.log("Router mangaId:", mangaId);
     const ratings = await Rating.findAll(mangaId);
     return res.json({ ratings });
@@ -30,17 +30,30 @@ router.get('/:mangaId', async function(req, res, next) {
   }
 });
 
+
   
-  // DELETE route to remove a rating
-  router.delete('/:id', ensureLoggedIn, async function(req, res, next) {
-    try {
-      const { id } = req.params;
-      await Rating.remove(id);
-      return res.json({ message: 'Rating deleted' });
-    } catch (err) {
-      return next(err);
-    }
-  });
+// DELETE route to remove a rating
+router.delete('/user/:userId/manga/:mangaId', ensureLoggedIn, async function (req, res, next) {
+  console.log('Inside DELETE route');
+  try {
+    console.log('Before remove');
+    const { userId, mangaId } = req.params;
+    await Rating.remove(userId, mangaId);
+    console.log('After remove');
+    return res.json({ message: 'Rating deleted' });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
+
+
+
+
+
+
+
   
 
 module.exports = router;
