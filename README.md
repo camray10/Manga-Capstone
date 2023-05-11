@@ -26,33 +26,39 @@ To install and run this application on your local machine, follow the steps belo
 
 2. Install the required dependencies for both frontend and backend:
 
-- Navigate to the frontend directory and run npm install:
+    - Navigate to the frontend directory and run npm install:
 
 *Copy code*
 `cd frontend`
 `npm install`
 
-- Navigate to the backend directory and run npm install:
+    - Navigate to the backend directory and run npm install:
 
 *Copy code*
 `cd backend`
 `npm install`
 
-3. Start the development servers for both frontend and backend:
+3. Set up the database:
 
-- In the frontend directory, run npm start:
+    - Run the following commands in your terminal and PostgreSQL will create and configure the manga and manga_test databases:
+
+ `psql < manga.sql`
+
+4. Start the development servers for both frontend and backend:
+
+    - In the frontend directory, run npm start:
 
 *Copy code*
 `cd frontend`
 `npm start`
 
-- In the backend directory, run nodemon:
+    - In the backend directory, run nodemon:
 
 *Copy code*
 `cd backend`
 `nodemon`
 
-4. Open your browser and visit http://localhost:3000 to view the application.
+5. Open your browser and visit http://localhost:3000 to view the application.
 
 ## Usage
 
