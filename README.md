@@ -8,9 +8,7 @@ Manga-Capstone is a user-friendly application that allows users to browse, rate,
 - Installation and Setup
 - Usage
 - Components
-- API
-- Contributing
-- License
+- Disclaimer
 
 ## Features
 
