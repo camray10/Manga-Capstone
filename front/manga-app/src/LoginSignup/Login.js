@@ -68,10 +68,9 @@ function LoginForm({ login }) {
                         required
                     />
                   </div>
-  
+                  
                   <button
                       className="btn btn-primary float-right"
-                      onSubmit={handleSubmit}
                   >
                     Submit
                   </button>

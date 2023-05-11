@@ -1,77 +1,80 @@
-.profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+.Profile {
+    text-align: center;
+    color: #ff009d;
     font-family: 'Noto Serif JP', serif;
   }
   
-  .card {
-    width: 400px;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
+  .Profile h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
   }
   
-  .card-body {
-    padding: 20px;
+  .Profile p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
   }
   
-  .form-group-username {
+  .Profile .favorites-section {
+    margin-top: 2rem;
+  }
+  
+  .Profile .favorites-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .Profile .favorite-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .Profile .favorite-list li {
+    margin: 0.5rem;
+  }
+  
+  .Profile .favorite-link {
+    text-decoration: none;
+    color: #ff009d;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    align-items: center;
+  }
+
+  .Profile .favorite-link:hover {
+    color: green;
   }
   
-  .form-group-username label {
-    font-weight: bold;
+  .Profile .favorite-cover {
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
   }
   
-  .form-group-username .form-control {
+  .Profile .favorite-title {
+    margin-top: 0.5rem;
     font-size: 1.2rem;
-    font-weight: bold;
-    color: #555;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 10px;
   }
   
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  .profile-actions {
+    margin-top: 20px;
   }
   
-  .form-group label {
-    font-weight: bold;
-  }
-  
-  .form-group .form-control {
-    font-size: 1.2rem;
-    color: #555;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 10px;
-  }
-  
-  .form-group .form-control:focus {
-    border-color: #007bff;
-    box-shadow: none;
-  }
-  
-  .btn-profile {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #007bff;
+  .edit-profile-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
-    margin-top: 20px;
     cursor: pointer;
+    transition: opacity 0.3s;
   }
   
-  .btn-profile:hover {
-    background-color: #0069d9;
+  .edit-profile-button:hover {
+    opacity: 0.8;
   }
   

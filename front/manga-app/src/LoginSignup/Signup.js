@@ -23,7 +23,7 @@ function SignupForm({ signup }) {
         evt.preventDefault();
         let result = await signup(formData);
         if (result.success) {
-          history.push("/home");
+          history.push("/manga");
         } else {
           setFormErrors(result.errors);
         }
@@ -94,7 +94,6 @@ function SignupForm({ signup }) {
                   <button
                       type="submit"
                       className="btn btn-primary float-right"
-                      onSubmit={handleSubmit}
                   >
                     Submit
                   </button>

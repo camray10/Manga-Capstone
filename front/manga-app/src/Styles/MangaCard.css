@@ -1,32 +1,30 @@
+/* MangaCard.css */
+
 .card-container {
   max-width: 800px;
-  margin: 40px auto;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: 'Noto Serif JP', serif;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 .title {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .cover {
   max-width: 100%;
-  height: auto;
   margin-bottom: 20px;
-  border-radius: 10px;
-  transition: opacity 0.3s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .description {
-  margin-bottom: 20px;
-  font-size: 1.2rem;
-  line-height: 1.8rem;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  text-align: justify;
 }
 
 .authors,
@@ -50,13 +48,149 @@
   text-transform: capitalize;
 }
 
-@media (max-width: 768px) {
-  .title {
-    font-size: 2rem;
+.status {
+  background-color: #e8da0d;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+.rating-button,
+.comment-button,
+.save-button,
+.edit-button,
+.delete-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.2s;
+}
+
+.rating-button:hover,
+.comment-button:hover,
+.save-button:hover,
+.edit-button:hover {
+  background-color: #3e8e41;
+}
+
+.delete-button {
+  background-color: #f44336;
+}
+
+.delete-button:hover {
+  background-color: #c62828;
+}
+
+.star {
+  color: #FFC107;
+  margin-right: 2px;
+}
+
+.rating-item {
+  margin-bottom: 5px;
+}
+
+.comment-item {
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+input[type="text"]:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h2 {
+  margin: 20px 0;
+}
+
+@media screen and (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
   }
-  
-  .description {
-    font-size: 1rem;
-    line-height: 1.5rem;
+
+  h2 {
+    margin-bottom: 10px;
   }
 }
+
+.comment-item {
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+
+.rating-item {
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+
+.favorite-button-add,
+.favorite-button-remove {
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.2s;
+}
+
+.favorite-button-add {
+  background-color: #925bc4;
+}
+
+.favorite-button-remove {
+  background-color: #f44336;
+}
+
+.favorite-button-add:hover {
+  background-color: #4f09ab;
+}
+
+.favorite-button-remove:hover {
+  background-color: #c62828;
+}
+

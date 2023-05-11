@@ -23,16 +23,13 @@ function App() {
 
   useEffect(function loadUserInfo() {
     console.debug("App useEffect loadUserInfo", "token=", token);
-
     async function getCurrentUser() {
       if (token) {
         try {
           let { username } = jwtDecode(token);
-          // put the token on the Api class so it can use it to call the API.
           MangaApi.token = token;
           let currentUser = await MangaApi.getCurrentUser(username);
-          setCurrentUser(currentUser);
-          // setApplicationIds(new Set(currentUser.applications));
+          setCurrentUser({ ...currentUser, token });
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);
           setCurrentUser(null);
@@ -40,7 +37,7 @@ function App() {
       }
       setInfoLoaded(true);
     }
-
+    
     setInfoLoaded(false);
     getCurrentUser();
   }, [token]);
@@ -54,8 +51,9 @@ function App() {
     /** Handles site-wide signup. */
     async function signup(signupData) {
       try {
-        let token = await MangaApi.signup(signupData);
+        const { token, user } = await MangaApi.signup(signupData);
         setToken(token);
+        setCurrentUser(user); // Set the currentUser with the returned user object
         return { success: true };
       } catch (errors) {
         console.error("signup failed", errors);
@@ -66,12 +64,9 @@ function App() {
     /** Handles site-wide login. */
     async function login(loginData) {
       try {
-        let token = await MangaApi.login(loginData);
+        const { token, user } = await MangaApi.login(loginData);
         setToken(token);
-        let { username } = jwtDecode(token);
-        MangaApi.token = token;
-        let currentUser = await MangaApi.getCurrentUser(username);
-        setCurrentUser(currentUser);
+        setCurrentUser(user); // Set the currentUser with the returned user object
         return { success: true };
       } catch (errors) {
         console.error("login failed", errors);
@@ -84,7 +79,7 @@ function App() {
       <Router>
       <UserContext.Provider value={{currentUser, setCurrentUser}}>
             <NavBar logout={logout} />
-            <Routes login = {login} signup = {signup}/>
+            <Routes signup={signup} login={login} token={token} />
       </UserContext.Provider>
       </Router>
     </div>

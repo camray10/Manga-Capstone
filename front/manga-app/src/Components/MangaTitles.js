@@ -17,7 +17,6 @@ function MangaTitles() {
     const fetchMangaTitles = async () => {
       try {
         setIsLoading(true);
-        console.log(`Fetching page ${currentPage}...`);
         const result = await MangaApi.getAllTitles(currentPage, limit, orderBy, searchQuery);
         setMangaTitles(result.data);
         setTotalPages(result.totalPages);
@@ -84,8 +83,7 @@ function MangaTitles() {
         />
         <button onClick={handleSearch}>Search</button>
       </div>
-
-
+      
       <h1>Manga List</h1>
       <ul className="manga-titles-list">
   {mangaList.map((manga) => (

@@ -16,7 +16,7 @@ function NavBar({ logout }) {
             MangaList
           </NavLink>
         </li>
-        {currentUser && (
+           {currentUser && (
           <li className="nav-item">
             <NavLink className="nav-link" to="/profile">
               Profile

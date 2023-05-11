@@ -1,0 +1,77 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Noto Serif JP', serif;
+  }
+  
+  .card {
+    width: 400px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .form-group-username {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .form-group-username label {
+    font-weight: bold;
+  }
+  
+  .form-group-username .form-control {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+  }
+  
+  .form-group .form-control {
+    font-size: 1.2rem;
+    color: #555;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .form-group .form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+  }
+  
+  .btn-profile {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .btn-profile:hover {
+    background-color: #0069d9;
+  }
+  
